@@ -1,11 +1,4 @@
-# **Finding Lane Lines on the Road** 
-
-## Writeup Template
-
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
-
----
-
+# Writeup Template
 **Finding Lane Lines on the Road**
 
 The goals / steps of this project are the following:
@@ -21,27 +14,35 @@ The goals / steps of this project are the following:
 
 ### Reflection
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+### 1. Description of pipeline
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
-
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
-
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
-
-![alt text][image1]
-
-
-### 2. Identify potential shortcomings with your current pipeline
-
-
-One potential shortcoming would be what would happen when ... 
-
-Another shortcoming could be ...
+My pipeline consisted of **5 steps**. 
+#### Step 1: Get the dimensions of the image
+#### Step 2: Converting the image to grayscale for the canny function
+![grayscale img](./test_images/writeupsImgs/output-grayscale.jpg)
+#### Step 3: Define the canny parameters (kernel size, gaussian blur, low/high thresholds)
+This step was done iteratively with the aim being to find the best parameters to change 
+![grayscale img](./test_images/writeupsImgs/output-edges.jpg)
+#### Step 4: Take the vertices for the map, and mask it to take only the lanes on the image
+From the image plot, I could identify the points needed to make the lines align with the lane only, so the rest was masked
+#### Step 5: Take the high gradient image and Use the weighted_img() function to place the lines on the initial images
+![Final Img](.\test_images\output-solidYellowLeft.jpg)
 
 
-### 3. Suggest possible improvements to your pipeline
 
-A possible improvement would be to ...
+##### Draw_Lines() function edit
+In order to extrapolate the lane lines, I changed the draw_lines() function by declaring each line boundary.
 
-Another potential improvement could be to ...
+I then took the main slopes, with it I made a comparative study using conditionals in order to ignore the slopes above/below which the lines shouldn't go.
+
+With this results I appended the boundaries to touch the neighbouring one, thereby closing them with a solid line
+
+![Drawline Img](.\test_images\drawLineOutput\output-solidYellowCurve.jpg)
+
+
+### 2. Potential Shortcomings
+One potential shortcoming would be what would happen when a slope is very much different from the critical slopes, the algorithm will not be able to adapt to that. Meaning that the pipeline won't work for roads other than these flat and straight ones
+
+### 3. Improvements
+We can make this much better by implementing a better system for darker colors, brightness and contrast
+
